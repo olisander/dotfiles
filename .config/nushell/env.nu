@@ -79,7 +79,7 @@ $env.NU_PLUGIN_DIRS = [
 ]
 
 # To add entries to PATH (on Windows you might use Path), you can use the following pattern:
-$env.PATH = ($env.PATH | split row (char esep) | prepend '/usr/local/bin' | prepend '~/.cargo/bin' | prepend '/opt/homebrew/bin')
+$env.PATH = ($env.PATH | split row (char esep) | prepend '/usr/local/bin' | prepend '~/.cargo/bin' | prepend '/opt/homebrew/bin' | prepend '/opt/homebrew/opt/openjdk/bin')
 
 # Starship
 if not (which starship | is-empty) {

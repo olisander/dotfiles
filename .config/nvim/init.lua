@@ -4,12 +4,26 @@ require("olisander.globals")
 -- Netrw
 require("olisander.netrw")
 
+-- Test
+-- local composer_file = vim.fs.find({ "composer.json" }, { upward = false })
+--
+-- if next(composer_file) ~= nil then
+--   print("Found composer.json")
+--   local composer_string = vim.fn.readfile(composer_file[1])
+--   local composer_table = vim.json.decode(table.concat(composer_string, "\n"))
+--   local namespace = composer_table["autoload"]["psr-4"]
+--   print(vim.inspect(namespace))
+-- end
+
 -- greatest remap ever
 vim.keymap.set("x", "<leader>p", [["_dP]])
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
+-- center view on half page up/down
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
 -- Install package manager
 --    https://github.com/folke/lazy.nvim

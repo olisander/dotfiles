@@ -220,8 +220,7 @@ pane_frames false
 //
 themes {
 	rose-pine {
-		//bg "#191724"
-		bg "#ffffff"
+		bg "#e0def4"
 		fg "#e0def4"
 		red "#eb6f92"
 		green "#31748f"

@@ -1,4 +1,5 @@
 source 'git.nu'
+source 'task.nu'
 #Aliases
 alias config = cd ~/.config 
 alias lunch = cd $env.LUNCH_PATH

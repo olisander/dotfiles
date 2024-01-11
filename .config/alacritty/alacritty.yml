@@ -203,11 +203,11 @@ colors:
     background: "0x191724"
     foreground: "0xe0def4"
   cursor:
-    text: "0xe0def4"
-    cursor: "0x524f67"
+    text: "#524f67"
+    cursor: "#e0def4"
   vi_mode_cursor:
-    text: "0xe0def4"
-    cursor: "0x524f67"
+    text: "#524f67"
+    cursor: "#e0def4"
   line_indicator:
     foreground: None
     background: None
@@ -810,7 +810,7 @@ shell:
 #
 # If the same trigger is assigned to multiple actions, all of them are executed
 # in the order they were defined in.
-#key_bindings:
+key_bindings:
   #- { key: Paste,                                       action: Paste          }
   #- { key: Copy,                                        action: Copy           }
   #- { key: L,         mods: Control,                    action: ClearLogNotice }
@@ -855,6 +855,7 @@ shell:
   #- { key: Key0,                        mode: Vi|~Search, action: First                   }
   #- { key: Key4,   mods: Shift,         mode: Vi|~Search, action: Last                    }
   #- { key: Key6,   mods: Shift,         mode: Vi|~Search, action: FirstOccupied           }
+  - { key: Key6,   mods: Control,       chars: "\x1e"                                     }
   #- { key: H,      mods: Shift,         mode: Vi|~Search, action: High                    }
   #- { key: M,      mods: Shift,         mode: Vi|~Search, action: Middle                  }
   #- { key: L,      mods: Shift,         mode: Vi|~Search, action: Low                     }
