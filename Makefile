@@ -6,6 +6,7 @@ link: # link all
 	@make link-alacritty -i
 	@make link-nushell -i
 	@make link-zellij -i
+	@make link-bat -i
 
 link-nvim: # link Neovim 
 	unlink ~/.config/nvim
@@ -23,3 +24,6 @@ link-zellij: # link Zellij
 	unlink ~/.config/zellij
 	ln -s $(realpath ./)/.config/zellij ~/.config/zellij
 
+link-bat: # link Bat 
+	unlink ~/.config/bat
+	ln -s $(realpath ./)/.config/bat ~/.config/bat
