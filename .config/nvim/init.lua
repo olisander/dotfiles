@@ -10,6 +10,9 @@ require("olisander.autocommands")
 
 require("olisander.autocommands.test")
 
+-- Set to true if you have a Nerd Font installed
+vim.g.have_nerd_font = true
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -124,7 +127,7 @@ require("lazy").setup({
 
 			-- Useful for getting pretty icons, but requires special font.
 			--  If you already have a Nerd Font, or terminal set up with fallback fonts
-			{ "nvim-tree/nvim-web-devicons" },
+			{ "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
 		},
 		config = function()
 			-- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -349,7 +352,7 @@ require("lazy").setup({
 			--  - filetypes (table): Override the default list of associated filetypes for the server
 			--  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
 			--  - settings (table): Override the default settings passed when initializing the server.
-			--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+			--        For example, to see thE options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 			local servers = {
 				-- clangd = {},
 				-- gopls = {},
@@ -406,22 +409,10 @@ require("lazy").setup({
 
 				lua_ls = {
 					-- cmd = {...},
-					-- filetypes { ...},
+					-- filetypes = { ...},
 					-- capabilities = {},
 					settings = {
 						Lua = {
-							runtime = { version = "LuaJIT" },
-							workspace = {
-								checkThirdParty = false,
-								-- Tells lua_ls where to find all the Lua files that you have loaded
-								-- for your neovim configuration.
-								library = {
-									"${3rd}/luv/library",
-									unpack(vim.api.nvim_get_runtime_file("", true)),
-								},
-								-- If lua_ls is really slow on your computer, you can try this instead:
-								-- library = { vim.env.VIMRUNTIME },
-							},
 							completion = {
 								callSnippet = "Replace",
 							},
@@ -437,16 +428,15 @@ require("lazy").setup({
 			--  other tools, you can run
 			--    :Mason
 			--
-			--  You can press `g?` for help in this menu
+			--  You can press `g?` for help in this menu.
 			require("mason").setup()
 
 			-- You can add other tools here that you want Mason to install
 			-- for you, so that they are available from within Neovim.
 			local ensure_installed = vim.tbl_keys(servers or {})
 			vim.list_extend(ensure_installed, {
-				"stylua", -- Used to format lua code
+				"stylua", -- Used to format Lua code
 			})
-
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
 			require("mason-lspconfig").setup({
@@ -470,10 +460,10 @@ require("lazy").setup({
 			require("conform").setup({
 				notify_on_error = true,
 				format_on_save = function(bufnr)
-					local always_use_lsp = vim.bo[bufnr].filetype:match("^php")
+					local lsp_fallback_by_type = { php = "always" }
 					return {
 						timeout_ms = 500,
-						lsp_fallback = always_use_lsp and "always" or true,
+						lsp_fallback = lsp_fallback_by_type[vim.bo[bufnr].filetype] or false,
 					}
 				end,
 				formatters_by_ft = {
@@ -504,14 +494,6 @@ require("lazy").setup({
 						tmpfile_format = "conform.$RANDOM.$FILENAME",
 						exit_codes = { 0, 1, 2 },
 					},
-					-- Run attached LSP formatter
-					-- intern_lsp = {
-					-- 	format = function(self, ctx, lines, callback)
-					-- 		vim.lsp.buf.format({
-					-- 			async = false,
-					-- 		})
-					-- 	end,
-					-- },
 				},
 			})
 		end,
@@ -525,14 +507,25 @@ require("lazy").setup({
 			{
 				"L3MON4D3/LuaSnip",
 				build = (function()
-					-- Build Step is needed for regex support in snippets
-					-- This step is not supported in many windows environments
-					-- Remove the below condition to re-enable on windows
+					-- Build Step is needed for regex support in snippets.
+					-- This step is not supported in many windows environments.
+					-- Remove the below condition to re-enable on windows.
 					if vim.fn.has("win32") == 1 or vim.fn.executable("make") == 0 then
 						return
 					end
 					return "make install_jsregexp"
 				end)(),
+				dependencies = {
+					-- `friendly-snippets` contains a variety of premade snippets.
+					--    See the README about individual language/framework/plugin snippets:
+					--    https://github.com/rafamadriz/friendly-snippets
+					-- {
+					--   'rafamadriz/friendly-snippets',
+					--   config = function()
+					--     require('luasnip.loaders.from_vscode').lazy_load()
+					--   end,
+					-- },
+				},
 			},
 			"saadparwaiz1/cmp_luasnip",
 
@@ -541,12 +534,6 @@ require("lazy").setup({
 			--  into multiple repos for maintenance purposes.
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-path",
-
-			-- If you want to add a bunch of pre-configured snippets,
-			--    you can use this plugin to help you. It even has snippets
-			--    for various frameworks/libraries/etc. but you will have to
-			--    set up the ones that are useful for you.
-			-- 'rafamadriz/friendly-snippets',
 		},
 		config = function()
 			-- See `:help cmp`
@@ -571,6 +558,10 @@ require("lazy").setup({
 					["<C-n>"] = cmp.mapping.select_next_item(),
 					-- Select the [p]revious item
 					["<C-p>"] = cmp.mapping.select_prev_item(),
+
+					-- Scroll the documentation window [b]ack / [f]orward
+					["<C-b>"] = cmp.mapping.scroll_docs(-4),
+					["<C-f>"] = cmp.mapping.scroll_docs(4),
 
 					-- Accept ([y]es) the completion.
 					--  This will auto-import if your LSP supports it.
@@ -600,6 +591,9 @@ require("lazy").setup({
 							luasnip.jump(-1)
 						end
 					end, { "i", "s" }),
+
+					-- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
+					--    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
 				}),
 				sources = {
 					{ name = "nvim_lsp" },
@@ -635,14 +629,14 @@ require("lazy").setup({
 			--  You could remove this setup call if you don't like it,
 			--  and try some other statusline plugin
 			local statusline = require("mini.statusline")
-			statusline.setup()
+			statusline.setup({ use_icons = vim.g.have_nerd_font })
 
-			-- You can confiure sections in the statusline by overriding their
-			-- default behavior. For example, here we disable the section for
-			-- cursor information because line numbers are already enabled
+			-- You can configure sections in the statusline by overriding their
+			-- default behavior. For example, here we set the section for
+			-- cursor location to LINE:COLUMN
 			---@diagnostic disable-next-line: duplicate-set-field
 			statusline.section_location = function()
-				return ""
+				return "%2l:%-2v"
 			end
 
 			-- ... and there is more!
@@ -653,22 +647,29 @@ require("lazy").setup({
 	{ -- Highlight, edit, and navigate code
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
-		config = function()
+		opts = {
+			ensure_installed = { "bash", "c", "html", "lua", "markdown", "vim", "vimdoc" },
+			-- Autoinstall languages that are not installed
+			auto_install = true,
+			highlight = {
+				enable = true,
+				-- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
+				--  If you are experiencing weird indenting issues, add the language to
+				--  the list of additional_vim_regex_highlighting and disabled languages for indent.
+				additional_vim_regex_highlighting = { "ruby" },
+			},
+			indent = { enable = true, disable = { "ruby" } },
+		},
+		config = function(_, opts)
 			-- [[ Configure Treesitter ]] See `:help nvim-treesitter`
 
 			---@diagnostic disable-next-line: missing-fields
-			require("nvim-treesitter.configs").setup({
-				ensure_installed = { "bash", "c", "html", "lua", "markdown", "vim", "vimdoc" },
-				-- Autoinstall languages that are not installed
-				auto_install = true,
-				highlight = { enable = true },
-				indent = { enable = true },
-			})
+			require("nvim-treesitter.configs").setup(opts)
 
 			-- There are additional nvim-treesitter modules that you can use to interact
 			-- with nvim-treesitter. You should go explore a few and see what interests you:
 			--
-			--    - Incremental selection: Included, see :help nvim-treesitter-incremental-selection-mod
+			--    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
 			--    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
 			--    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
 		end,
@@ -676,21 +677,22 @@ require("lazy").setup({
 
 	-- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
 	-- init.lua. If you want these files, they are in the repository, so you can just download them and
-	-- put them in the right spots if you want.
+	-- place them in the correct locations.
 
-	-- NOTE: Next step on your Neovim journey: Add/Configure additional plugins for kickstart
+	-- NOTE: Next step on your Neovim journey: Add/Configure additional plugins for Kickstart
 	--
-	--  Here are some example plugins that I've included in the kickstart repository.
+	--  Here are some example plugins that I've included in the Kickstart repository.
 	--  Uncomment any of the lines below to enable them (you will need to restart nvim).
 	--
 	-- require 'kickstart.plugins.debug',
 	-- require 'kickstart.plugins.indent_line',
+	-- require 'kickstart.plugins.lint',
 
 	-- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
 	--    This is the easiest way to modularize your config.
 	--
 	--  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-	--    For additional information see: :help lazy.nvim-lazy.nvim-structuring-your-plugins
+	--    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
 	-- { import = 'custom.plugins' },
 
 	require("olisander.plugins.theme"),
@@ -703,6 +705,26 @@ require("lazy").setup({
 	-- require("olisander.plugins.autoformat"),
 
 	"github/copilot.vim",
+}, {
+	ui = {
+		-- If you are using a Nerd Font: set icons to an empty table which will use the
+		-- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
+		icons = vim.g.have_nerd_font and {} or {
+			cmd = "⌘",
+			config = "🛠",
+			event = "📅",
+			ft = "📂",
+			init = "⚙",
+			keys = "🗝",
+			plugin = "🔌",
+			runtime = "💻",
+			require = "🌙",
+			source = "📄",
+			start = "🚀",
+			task = "📌",
+			lazy = "💤 ",
+		},
+	},
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
