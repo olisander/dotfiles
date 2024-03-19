@@ -6,8 +6,7 @@ return {
 		null_ls.setup({
 			sources = {
 				require("olisander.plugins.null-ls.dockerphpcbf"),
-				require("olisander.plugins.null-ls.dockerstan"),
-				null_ls.builtins.formatting.stylua,
+				-- require("olisander.plugins.null-ls.dockerstan"),
 			},
 			debug = true,
 		})

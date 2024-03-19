@@ -9,7 +9,7 @@ alias personal = cd $env.PERSONAL_PATH
 alias dotfiles = cd $env.DOTFILES_PATH 
 
 # Vim
-alias vim = nvim .
+alias vim = nvim
 alias score = zellij --layout editor attach core --create
 alias slunch = zellij --layout editor attach lunch --create
 

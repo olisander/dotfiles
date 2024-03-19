@@ -27,3 +27,7 @@ link-zellij: # link Zellij
 link-bat: # link Bat 
 	unlink ~/.config/bat
 	ln -s $(realpath ./)/.config/bat ~/.config/bat
+
+link-tmux: # link Tmux 
+	unlink ~/.config/tmux/.tmux.conf
+	ln -s $(realpath ./)/.config/tmux/.tmux.conf ~/.tmux.conf

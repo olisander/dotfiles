@@ -70,6 +70,11 @@ chars = "\u001E"
 key = "Key6"
 mods = "Control"
 
+[[keyboard.bindings]]
+chars = "~/.config/alacritty/tmux-sessionizer.sh \u000D"
+key = "f"
+mods = "Control"
+
 [shell]
 program = "/Users/oliver.bohne/.cargo/bin/nu"
 
@@ -81,3 +86,6 @@ startup_mode = "Maximized"
 [window.padding]
 x = 20
 y = 20
+
+[env]
+term = "xterm-256color"
