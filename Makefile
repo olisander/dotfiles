@@ -31,3 +31,6 @@ link-bat: # link Bat
 link-tmux: # link Tmux 
 	unlink ~/.config/tmux/.tmux.conf
 	ln -s $(realpath ./)/.config/tmux/.tmux.conf ~/.tmux.conf
+
+link-scripts: # link tmux-sessionizer 
+	ln -s $(realpath ./)/scripts/tmux-sessionizer.sh ~/.local/bin/tmux-sessionizer.sh

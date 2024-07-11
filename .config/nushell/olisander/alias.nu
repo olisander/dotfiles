@@ -15,3 +15,4 @@ alias slunch = zellij --layout editor attach lunch --create
 
 # Other
 alias cat = bat --paging=never
+alias vimdiff = nvim -d

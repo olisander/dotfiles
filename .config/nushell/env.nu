@@ -101,6 +101,9 @@ $env.NU_PLUGIN_DIRS = [
 # To add entries to PATH (on Windows you might use Path), you can use the following pattern:
 $env.PATH = ($env.PATH | split row (char esep) | prepend '/usr/local/bin' | prepend '~/.cargo/bin' | prepend '/opt/homebrew/bin' | prepend '/opt/homebrew/opt/openjdk/bin' | prepend '/opt/homebrew/opt/python@3.11/libexec/bin')
 
+# Change SHELL env to the path of the current shell binary
+$env.SHELL = (which nu)
+
 # Starship
 if not (which starship | is-empty) {
     mkdir ~/.cache/starship
@@ -115,15 +118,27 @@ if not (which fnm | is-empty) {
   ])
 }
 
+# Devbox 
+if not (which devbox | is-empty) {
+  # ^devbox global shellenv --init-hook
+  # $env.PATH = ($env.PATH | prepend [
+  #   $"(devbox global shellenv --init-hook)"
+  # ])
+}
+
 #Custom Env 
-$env.CODE_PATH = '~/code'
+$env.CODE_PATH = $"($env.HOME)/code"
 $env.CORE_PATH = $"($env.CODE_PATH)/furniture-core"
 $env.LUNCH_PATH = $"($env.CODE_PATH)/checkito-lunch"
 
 #Personal Env 
-$env.PERSONAL_PATH = '~/personal'
+$env.PERSONAL_PATH = $"($env.HOME)/personal"
 $env.DOTFILES_PATH = $"($env.PERSONAL_PATH)/dotfiles"
 
-#SSH
-$env.SSH_AUTH_SOCK = $"($env.HOME)/.ssh/agent"
-
+# VULKAN MAC 
+$env.VULKAN_SDK = $"($env.HOME)/VulkanSDK/1.3.283.0/macOS"
+$env.PATH = ($env.PATH | split row (char esep) | prepend $"($env.VULKAN_SDK)/bin")
+$env.DYLD_LIBRARY_PATH = $"($env.VULKAN_SDK)/lib" 
+$env.VK_ADD_LAYER_PATH = $"($env.VULKAN_SDK)/share/vulkan/explicit_layer.d"
+$env.VK_ICD_FILENAMES = $"($env.VULKAN_SDK)/share/vulkan/icd.d/MoltenVK_icd.json"
+$env.VK_DRIVER_FILES = $"($env.VULKAN_SDK)/share/vulkan/icd.d/MoltenVK_icd.json"
