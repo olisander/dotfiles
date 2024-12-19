@@ -20,6 +20,13 @@ then
         echo "tmux is at the latest version"
     else
         echo "tmux is not at the latest version"
+        wget "https://github.com/tmux/tmux/releases/download/${TMUX_VERSION}/tmux-${TMUX_VERSION}.tar.gz"
+        tar -xvf "tmux-${TMUX_VERSION}.tar.gz"
+        rm "tmux-${TMUX_VERSION}.tar.gz"
+        cd "tmux-${TMUX_VERSION}"
+        # needed brew install pkg-config
+        ./configure --enable-utf8proc
+        make && sudo make install
     fi
 else
     wget "https://github.com/tmux/tmux/releases/download/${TMUX_VERSION}/tmux-${TMUX_VERSION}.tar.gz"

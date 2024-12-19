@@ -31,4 +31,12 @@ ls.add_snippets('php', {
     trig = 'pubf',
     name = 'public function',
   }, fmt('public function {}({}): {}\n{{\n    {}\n}}', { i(1), i(2), i(3, 'void'), i(4) })),
+  s({
+    trig = 'if',
+    name = 'if',
+  }, fmt('if ({}) {{\n    {}\n}}', { i(1), i(2) })),
+  s({
+    trig = 'foreach',
+    name = 'foreach',
+  }, fmt('foreach ({} as {}) {{\n    {}\n}}', { i(1), i(2, '$item'), i(3) })),
 })

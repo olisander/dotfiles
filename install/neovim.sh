@@ -16,4 +16,4 @@ else
     git clone https://github.com/neovim/neovim
 fi
 
-cd neovim && git fetch --tags --force && git checkout stable && make CMAKE_BUILD_TYPE=RelWithDebInfo && sudo make install 
+cd neovim && git fetch --tags --force && git checkout stable && make distclean && make CMAKE_BUILD_TYPE=RelWithDebInfo && sudo make install 

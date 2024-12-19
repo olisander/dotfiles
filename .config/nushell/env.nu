@@ -99,7 +99,7 @@ $env.NU_PLUGIN_DIRS = [
 ]
 
 # To add entries to PATH (on Windows you might use Path), you can use the following pattern:
-$env.PATH = ($env.PATH | split row (char esep) | prepend '/usr/local/bin' | prepend '~/.cargo/bin' | prepend '/opt/homebrew/bin' | prepend '/opt/homebrew/opt/openjdk/bin' | prepend '/opt/homebrew/opt/python@3.11/libexec/bin')
+$env.PATH = ($env.PATH | split row (char esep) | prepend '/usr/local/bin' | prepend '~/.cargo/bin' | prepend '/opt/homebrew/bin' | prepend '/opt/homebrew/opt/openjdk/bin')
 
 # Change SHELL env to the path of the current shell binary
 $env.SHELL = (which nu)
@@ -129,6 +129,7 @@ if not (which devbox | is-empty) {
 #Custom Env 
 $env.CODE_PATH = $"($env.HOME)/code"
 $env.CORE_PATH = $"($env.CODE_PATH)/furniture-core"
+$env.CORE = $"($env.CODE_PATH)/furniture-core"
 $env.LUNCH_PATH = $"($env.CODE_PATH)/checkito-lunch"
 
 #Personal Env 

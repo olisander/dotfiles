@@ -18,10 +18,11 @@ return {
           --
           -- You can use a sub-list to tell conform to run *until* a formatter
           -- is found.
-          typescriptreact = { { 'prettierd', 'prettier' }, 'eslint_d' },
-          typescript = { { 'prettierd', 'prettier' }, 'eslint_d' },
+          typescriptreact = { 'prettierd', 'eslint_d' },
+          typescript = { 'prettierd', 'eslint_d' },
           php = { 'trim_whitespace', 'pretty-php', 'phpcbf' },
           rust = { 'rustfmt', 'leptosfmt' },
+          typst = { 'typstfmt' },
         },
         formatters = {
           phpcbf = {

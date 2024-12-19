@@ -74,12 +74,11 @@ def "core provision-mac" [] {
 # Run the import-db script
 def "core db-import" [] {
     cd $env.CORE_PATH
-    sh -c "cd data/mysql/scripts && bash import-binary-backup-docker.sh"
+    sh -c "cd data/mysql/scripts && bash import-binary-backup-docker.sh copy-back partial"
 }
 
 # Setup the elasticsearch indexes
 def "core es-setup" [] {
-    docker exec core-backend-php-fpm bin/console moebel:core:elasticsearch:index-management recreate --all
-    docker exec core-backend-php-fpm bin/console moebel:core:elasticsearch:export --all --partial
-
+    docker exec core-backend-php-fpm bin/console moebel:core:elasticsearch:index-management index_delete_recreate_active_passive --all
+    docker exec core-backend-php-fpm bin/console moebel:core:elasticsearch:export full_sequential_active --all
 }
