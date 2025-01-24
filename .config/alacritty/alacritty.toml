@@ -75,7 +75,7 @@ chars = "~/.local/bin/tmux-sessionizer.sh \u000D"
 key = "f"
 mods = "Control"
 
-[shell]
+[terminal.shell]
 program = "/Users/oliver.bohne/.cargo/bin/nu"
 # program = "/usr/local/bin/devbox"
 # args = ["shell"]
@@ -91,3 +91,5 @@ y = 20
 
 [env]
 term = "xterm-256color"
+
+[terminal]

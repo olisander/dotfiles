@@ -16,6 +16,7 @@ else
     git clone https://github.com/alacritty/alacritty.git
 fi
 cd alacritty
+git pull
 
 $SCRIPT_DIR/rust.sh
 make app

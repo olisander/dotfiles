@@ -51,5 +51,21 @@ require('lazy').setup({ import = 'olisander/plugins' }, {
   },
 })
 
+-- local client = vim.lsp.start_client({
+--   name = 'test-lsp',
+--   cmd = { '/Users/oliver.bohne/personal/lsp/target/debug/lsp' },
+-- })
+--
+-- if not client then
+--   return
+-- end
+--
+-- vim.api.nvim_create_autocmd('FileType', {
+--   pattern = 'markdown',
+--   callback = function()
+--     vim.lsp.buf_attach_client(0, client)
+--   end,
+-- })
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
