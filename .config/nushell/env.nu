@@ -131,6 +131,7 @@ $env.CODE_PATH = $"($env.HOME)/code"
 $env.CORE_PATH = $"($env.CODE_PATH)/furniture-core"
 $env.CORE = $"($env.CODE_PATH)/furniture-core"
 $env.LUNCH_PATH = $"($env.CODE_PATH)/checkito-lunch"
+$env.COMPOSE_PROFILES = "core-backend,core-frontend,opentelemetry"
 
 #Personal Env 
 $env.PERSONAL_PATH = $"($env.HOME)/personal"

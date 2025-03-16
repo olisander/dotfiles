@@ -47,7 +47,7 @@ cursor = "#e0def4"
 text = "#524f67"
 
 [font]
-size = 15.5
+size = 14.5
 
 [font.bold]
 family = "Hack Nerd Font"

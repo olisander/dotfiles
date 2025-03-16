@@ -20,7 +20,7 @@ return {
           -- is found.
           typescriptreact = { 'prettierd', 'eslint_d' },
           typescript = { 'prettierd', 'eslint_d' },
-          php = { 'trim_whitespace', 'pretty-php', 'phpcbf' },
+          php = { 'trim_whitespace', 'pretty-php', 'php_cs_fixer', 'phpcbf' },
           rust = { 'rustfmt', 'leptosfmt' },
           typst = { 'typstfmt' },
         },
@@ -28,6 +28,11 @@ return {
           phpcbf = {
             cwd = require('conform.util').root_file({ 'composer.json' }),
             require_cwd = true,
+          },
+          php_cs_fixer = {
+            env = {
+              PHP_CS_FIXER_IGNORE_ENV = 1,
+            },
           },
         },
       })

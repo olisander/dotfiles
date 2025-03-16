@@ -9,12 +9,12 @@ source $SCRIPT_DIR/variables.sh
 
 $SCRIPT_DIR/rust.sh
 
-NU_VERSION=$(cargo search nu | head -n 1 | sed -n 's/.*"\(.*\)".*/\1/p')
+LATEST_NU_VERSION=$(curl -s https://api.github.com/repos/nushell/nushell/releases/latest | jq -r .tag_name)
+INSTALLED_NU_VERSION=$(nu --version)
 
 if command -v nu &> /dev/null
 then
-    INSTALLED_NU_VERSION=$(nu --version)
-    if [ "$INSTALLED_NU_VERSION" == "$NU_VERSION" ]
+    if [ "$INSTALLED_NU_VERSION" == "$LATEST_NU_VERSION" ]
     then
         echo "nu is at the latest version"
     else
